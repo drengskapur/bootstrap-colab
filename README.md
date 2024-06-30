@@ -6,9 +6,10 @@
 def bootstrap():
     # @title Bootstrap Google Colab {display-mode:"form"}
 
-    # CONFIGURE: Parameters
+    # CONFIGURATION PARAMETERS
     GOOGLE_DRIVE_FOLDER = "my-folder" # @param {type:"string"}
     GitHub = True  # @param {type:"boolean"}
+    OpenAI = True  # @param {type:"boolean"}
     HuggingFace = True  # @param {type:"boolean"}
     Kaggle = True  # @param {type:"boolean"}
 
@@ -18,6 +19,7 @@ def bootstrap():
         ("GH_TOKEN", GitHub), # https://github.com/settings/personal-access-tokens/new
         ("GITHUB_USERNAME", GitHub), # git config --global user.name
         ("GITHUB_EMAIL", GitHub), # git config --global user.email
+        ("OPENAI_API_KEY", OpenAI), # https://platform.openai.com/api-keys
         ("HF_TOKEN", HuggingFace), # https://huggingface.co/settings/tokens?new_token=true
         ("KAGGLE_USERNAME", Kaggle),
         ("KAGGLE_KEY", Kaggle), # https://www.kaggle.com/settings#:~:text=Create%20New%20Token
@@ -82,6 +84,14 @@ def bootstrap():
         !git config --global user.name {userdata.get("GITHUB_USERNAME")}
         !git config --global user.email {userdata.get("GITHUB_EMAIL")}
 
+    # AUTHENTICATE: OpenAI
+    # https://www.kaggle.com/settings
+    if OpenAI:
+        os.environ["OPENAI_API_KEY"] = userdata.get("OPENAI_API_KEY")
+        !uv pip install --system --quiet openai
+        from openai import OpenAI
+        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
     # AUTHENTICATE: Hugging Face
     # https://huggingface.co/docs/huggingface_hub/en/quick-start#authentication
     if HuggingFace:
@@ -131,7 +141,7 @@ def bootstrap():
     # IMPORT: Python Libraries
     import tqdm.notebook
 
-    # OUTPUT
+    # OUTPUTS
     print(f"SHORTCUT: {shortcut} --> {project_path}")
     return str(shortcut)
 
