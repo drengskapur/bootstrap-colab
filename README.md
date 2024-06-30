@@ -83,6 +83,8 @@ def bootstrap():
         !gh auth login --hostname "github.com" --git-protocol https --with-token <<< {userdata.get("GH_TOKEN")}
         !git config --global user.name {userdata.get("GITHUB_USERNAME")}
         !git config --global user.email {userdata.get("GITHUB_EMAIL")}
+        !git config --global pull.rebase false
+        !git config credential.helper store
 
     # AUTHENTICATE: OpenAI
     # https://www.kaggle.com/settings
