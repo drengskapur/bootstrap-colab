@@ -80,11 +80,11 @@ def bootstrap():
         !echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
         !apt-get update > /dev/null
         !apt-get install gh > /dev/null
-        !gh auth login --hostname "github.com" --git-protocol https --with-token <<< {userdata.get("GH_TOKEN")}
         !git config --global user.name {userdata.get("GITHUB_USERNAME")}
         !git config --global user.email {userdata.get("GITHUB_EMAIL")}
         !git config --global pull.rebase false
         !git config --global credential.helper store
+        !gh auth login --hostname "github.com" --git-protocol https --with-token <<< {userdata.get("GH_TOKEN")}
 
     # AUTHENTICATE: OpenAI
     # https://www.kaggle.com/settings
