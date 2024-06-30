@@ -7,7 +7,7 @@ def bootstrap():
     # @title Bootstrap Google Colab {display-mode:"form"}
 
     # CONFIGURE: Parameters
-    GOOGLE_DRIVE_FOLDER = "my-folder" # @param {type:"string"}
+    GOOGLE_DRIVE_FOLDER = "my_folder" # @param {type:"string"}
     GitHub = True  # @param {type:"boolean"}
     OpenAI = True  # @param {type:"boolean"}
     HuggingFace = True  # @param {type:"boolean"}
@@ -60,9 +60,9 @@ def bootstrap():
         'APT::Sources::List::Disable-Auto-Refresh "true";',
         'Dpkg::Options "--force-confnew";',
         'Dpkg::Use-Pty "0";',
-        'quiet "2";',
+        'Quiet "2";',
     ]
-    with open('/etc/apt/apt.conf.d/99apt.conf', 'w') as file:
+    with open('/etc/apt/apt.conf.d/01apt.conf', 'w') as file:
         for setting in APT_CONFIG:
             file.write(setting + '\n')
 
@@ -73,12 +73,13 @@ def bootstrap():
     # AUTHENTICATE: GitHub
     # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
     if GitHub:
-        !apt-get remove --purge -y gh > /dev/null
+        !apt-get remove --purge gh > /dev/null
         !mkdir -p -m 755 /etc/apt/keyrings
         !wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
         !chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
         !echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-        !apt-get update && apt-get install -y gh > /dev/null
+        !apt-get update > /dev/null
+        !apt-get install gh > /dev/null
         !gh auth login --hostname "github.com" --git-protocol https --with-token <<< {userdata.get("GH_TOKEN")}
         !git config --global user.name {userdata.get("GITHUB_USERNAME")}
         !git config --global user.email {userdata.get("GITHUB_EMAIL")}
@@ -129,7 +130,7 @@ def bootstrap():
 
     # ENSURE: apt packages
     !apt-get install -qq \
-        tree
+        tree > /dev/null
 
     # ENSURE: pip packages
     !pip install --upgrade pip
