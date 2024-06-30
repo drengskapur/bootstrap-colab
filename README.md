@@ -6,7 +6,7 @@
 def bootstrap():
     # @title Bootstrap Google Colab {display-mode:"form"}
 
-    # CONFIGURATION PARAMETERS
+    # CONFIGURE: Parameters
     GOOGLE_DRIVE_FOLDER = "my-folder" # @param {type:"string"}
     GitHub = True  # @param {type:"boolean"}
     OpenAI = True  # @param {type:"boolean"}
