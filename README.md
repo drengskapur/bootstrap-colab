@@ -70,7 +70,7 @@ def bootstrap():
     # https://github.com/astral-sh/uv
     !pip install uv
 
-    # CONFIGURE: GitHub
+    # AUTHENTICATE: GitHub
     # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
     if GitHub:
         !apt-get remove --purge -y gh > /dev/null
